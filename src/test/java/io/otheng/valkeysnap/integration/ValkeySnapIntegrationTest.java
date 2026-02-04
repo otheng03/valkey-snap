@@ -34,7 +34,7 @@ class ValkeySnapIntegrationTest {
 
     @Container
     private static final GenericContainer<?> valkey = new GenericContainer<>(
-        DockerImageName.parse("valkey/valkey:8")
+        DockerImageName.parse("valkey/valkey:9")
     )
         .withExposedPorts(6379)
         .withCommand("valkey-server", "--appendonly", "no");
