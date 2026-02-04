@@ -21,9 +21,14 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testImplementation("org.assertj:assertj-core:3.24.2")
+    testImplementation("org.assertj:assertj-core:3.27.7")
     testImplementation("org.mockito:mockito-core:5.7.0")
-    testImplementation("ch.qos.logback:logback-classic:1.4.11")
+    testImplementation("ch.qos.logback:logback-classic:1.5.13")
+
+    // Integration testing
+    testImplementation("org.testcontainers:testcontainers:1.19.3")
+    testImplementation("org.testcontainers:junit-jupiter:1.19.3")
+    testImplementation("redis.clients:jedis:5.1.0")
 }
 
 tasks.test {
