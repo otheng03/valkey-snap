@@ -123,6 +123,7 @@ public class ReplicationHandshake {
         // +CONTINUE <replid>
         // -ERR ...
         RespValue response = parser.parse();
+        // TODO : Handle special responses that do not follow the RESP format
 
         if (response instanceof RespValue.SimpleString ss) {
             String value = ss.value();
