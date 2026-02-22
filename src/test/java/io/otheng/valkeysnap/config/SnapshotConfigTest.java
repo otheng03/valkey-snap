@@ -18,8 +18,8 @@ class SnapshotConfigTest {
         assertThat(config.host()).isEqualTo("localhost");
         assertThat(config.port()).isEqualTo(6379);
         assertThat(config.password()).isNull();
-        assertThat(config.connectionTimeout()).isEqualTo(Duration.ofSeconds(600));
-        assertThat(config.readTimeout()).isEqualTo(Duration.ofSeconds(600));
+        assertThat(config.connectionTimeout()).isEqualTo(Duration.ofSeconds(30));
+        assertThat(config.readTimeout()).isEqualTo(Duration.ofSeconds(30));
         assertThat(config.rateLimitBytesPerSecond()).isEqualTo(0);
         assertThat(config.emitKeyValueEvents()).isTrue();
         assertThat(config.emitCommandEvents()).isFalse();

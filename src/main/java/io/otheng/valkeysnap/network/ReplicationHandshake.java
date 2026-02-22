@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-import static io.otheng.valkeysnap.protocol.resp.RespParser.LF;
-
 /**
  * Handles the PSYNC replication handshake with a Valkey/Redis server.
  *
@@ -124,8 +122,6 @@ public class ReplicationHandshake {
         // +CONTINUE
         // +CONTINUE <replid>
         // -ERR ...
-        // TODO : Investigate where LFs come from
-        parser.eat(LF);
         RespValue response = parser.parse();
         // TODO : Handle special responses that do not follow the RESP format
 

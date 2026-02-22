@@ -31,22 +31,19 @@ import static org.assertj.core.api.Assertions.*;
  * Integration test that runs against a real Valkey 9 instance.
  * Tests all data types: STRING, LIST, SET, ZSET, HASH.
  */
-//@Testcontainers
+@Testcontainers
 class ValkeySnapIntegrationTest {
 
     @Container
-    //private static final GenericContainer<?> valkey = new GenericContainer<>(
-    //        DockerImageName.parse("valkey/valkey:9.0.2")
-    //).withExposedPorts(6379).withCommand("valkey-server", "--appendonly", "no");
-    static final String host = "localhost";
-    //static final String host = "192.168.219.101";
-    static final int port = 6379;
+    private static final GenericContainer<?> valkey = new GenericContainer<>(
+            DockerImageName.parse("valkey/valkey:9.0.2")
+    ).withExposedPorts(6379).withCommand("valkey-server", "--appendonly", "no");
 
     private Jedis jedis;
 
     @BeforeEach
     void setUp() {
-        jedis = new Jedis(host, port, 1_000_000);
+        jedis = new Jedis(valkey.getHost(), valkey.getMappedPort(6379));
         jedis.flushAll();
     }
 
@@ -75,8 +72,8 @@ class ValkeySnapIntegrationTest {
         ValkeySnap snap = ValkeySnap.builder()
             .connectionTimeout(Duration.ofSeconds(600))
             .readTimeout(Duration.ofSeconds(600))
-            .host(host)
-            .port(port)
+            .host(valkey.getHost())
+            .port(valkey.getMappedPort(6379))
             .emitKeyValueEvents(true)
             .emitCommandEvents(true)
             .listener(new SnapshotListenerAdapter() {
@@ -217,8 +214,8 @@ class ValkeySnapIntegrationTest {
         CountDownLatch latch = new CountDownLatch(1);
 
         ValkeySnap snap = ValkeySnap.builder()
-            .host(host)
-            .port(port)
+            .host(valkey.getHost())
+            .port(valkey.getMappedPort(6379))
             .emitKeyValueEvents(true)
             .emitCommandEvents(true)
             .listener(new SnapshotListenerAdapter() {
@@ -276,8 +273,8 @@ class ValkeySnapIntegrationTest {
         CountDownLatch latch = new CountDownLatch(1);
 
         ValkeySnap snap = ValkeySnap.builder()
-            .host(host)
-            .port(port)
+            .host(valkey.getHost())
+            .port(valkey.getMappedPort(6379))
             .emitKeyValueEvents(true)
             .emitCommandEvents(true)
             .commandChunkMaxElements(1000)
@@ -310,7 +307,7 @@ class ValkeySnapIntegrationTest {
             .build();
 
         Thread thread = snap.startAsync();
-        latch.await(60, TimeUnit.SECONDS);
+        latch.await(30, TimeUnit.SECONDS);
         snap.close();
         thread.join(5000);
 
@@ -340,8 +337,8 @@ class ValkeySnapIntegrationTest {
         ValkeySnap snap = ValkeySnap.builder()
             .connectionTimeout(Duration.ofSeconds(600))
             .readTimeout(Duration.ofSeconds(600))
-            .host(host)
-            .port(port)
+            .host(valkey.getHost())
+            .port(valkey.getMappedPort(6379))
             .emitKeyValueEvents(true)
             .listener(new SnapshotListenerAdapter() {
                 @Override

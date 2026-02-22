@@ -108,7 +108,7 @@ public final class SnapshotConfig {
         private int port = 6379;
         private String password;
         private Duration connectionTimeout = Duration.ofSeconds(30);
-        private Duration readTimeout = Duration.ofSeconds(60);
+        private Duration readTimeout = Duration.ofSeconds(30);
         private long rateLimitBytesPerSecond = 0; // 0 = unlimited
         private boolean emitKeyValueEvents = true;
         private boolean emitCommandEvents = false;
