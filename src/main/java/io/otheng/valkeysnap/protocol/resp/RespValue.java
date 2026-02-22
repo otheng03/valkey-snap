@@ -15,6 +15,13 @@ public sealed interface RespValue {
      */
     RespType type();
 
+    record None() implements RespValue {
+        @Override
+        public RespType type() {
+            return null;
+        }
+    }
+
     /**
      * Simple String value (e.g., +OK).
      */

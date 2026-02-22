@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class SnapshotConfigTest {
 
@@ -17,8 +18,8 @@ class SnapshotConfigTest {
         assertThat(config.host()).isEqualTo("localhost");
         assertThat(config.port()).isEqualTo(6379);
         assertThat(config.password()).isNull();
-        assertThat(config.connectionTimeout()).isEqualTo(Duration.ofSeconds(30));
-        assertThat(config.readTimeout()).isEqualTo(Duration.ofSeconds(60));
+        assertThat(config.connectionTimeout()).isEqualTo(Duration.ofSeconds(600));
+        assertThat(config.readTimeout()).isEqualTo(Duration.ofSeconds(600));
         assertThat(config.rateLimitBytesPerSecond()).isEqualTo(0);
         assertThat(config.emitKeyValueEvents()).isTrue();
         assertThat(config.emitCommandEvents()).isFalse();

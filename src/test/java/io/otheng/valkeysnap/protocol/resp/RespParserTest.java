@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import static io.otheng.valkeysnap.protocol.resp.RespParser.LF;
 import static org.assertj.core.api.Assertions.*;
 
 class RespParserTest {
@@ -161,6 +162,14 @@ class RespParserTest {
 
         RespValue third = parser.parse();
         assertThat(((RespValue.Integer) third).value()).isEqualTo(42L);
+    }
+
+    @Test
+    void eatLF() throws IOException {
+        RespParser parser = parserFor("\n\n\n+PONG\r\n");
+        parser.eat(LF);
+        RespValue first = parser.parse();
+        assertThat(((RespValue.SimpleString) first).value()).isEqualTo("PONG");
     }
 
     private RespParser parserFor(String data) {

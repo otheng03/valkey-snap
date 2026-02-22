@@ -8,9 +8,8 @@ public final class RdbConstants {
     private RdbConstants() {}
 
     // RDB file signature
-    public static final byte[] MAGIC = "REDIS".getBytes();
-    public static final int RDB_VERSION_MIN = 1;
-    public static final int RDB_VERSION_MAX = 11;
+    public static final byte[] MAGIC = "VALKEY".getBytes();
+    public static final int RDB_VERSION = 80;
 
     // Opcodes
     public static final int RDB_OPCODE_MODULE_AUX = 247;

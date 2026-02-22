@@ -13,8 +13,9 @@ import java.util.List;
  */
 public class RespParser {
 
+    public static final int LF = '\n';
+
     private static final int CR = '\r';
-    private static final int LF = '\n';
     private static final int MAX_LINE_LENGTH = 64 * 1024; // 64KB max line
 
     private final InputStream in;
@@ -36,6 +37,7 @@ public class RespParser {
         if (prefix < 0) {
             throw new EOFException("End of stream while reading RESP type");
         }
+        char chp = (char) prefix;
 
         RespType type = RespType.fromPrefix(prefix);
 
@@ -45,8 +47,20 @@ public class RespParser {
             case INTEGER -> parseInteger();
             case BULK_STRING -> parseBulkString();
             case ARRAY -> parseArray();
+            case LF -> new RespValue.None();
         };
     }
+
+    public void eat(int c) throws IOException {
+        int readByte;
+        do {
+            in.mark(1);
+            readByte = in.read();
+        } while (readByte == c);
+        in.reset();
+    }
+
+    private void doNothing() {}
 
     /**
      * Reads a line terminated by \r\n.

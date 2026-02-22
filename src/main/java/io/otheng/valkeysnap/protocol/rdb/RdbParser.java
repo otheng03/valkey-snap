@@ -47,14 +47,14 @@ public class RdbParser {
     }
 
     private void parseHeader() throws IOException {
-        // Read magic "REDIS"
-        byte[] magic = in.readBytes(5);
+        // Read magic "VALKEY"
+        byte[] magic = in.readBytes(6);
         if (!Arrays.equals(magic, MAGIC)) {
             throw new RdbParseException("Invalid RDB magic: " + new String(magic, StandardCharsets.US_ASCII));
         }
 
-        // Read version (4 bytes ASCII, e.g., "0011")
-        byte[] versionBytes = in.readBytes(4);
+        // Read version (333ytes ASCII, e.g., "011")
+        byte[] versionBytes = in.readBytes(3);
         String versionStr = new String(versionBytes, StandardCharsets.US_ASCII);
         try {
             rdbVersion = Integer.parseInt(versionStr);
@@ -62,9 +62,9 @@ public class RdbParser {
             throw new RdbParseException("Invalid RDB version: " + versionStr);
         }
 
-        if (rdbVersion < RDB_VERSION_MIN || rdbVersion > RDB_VERSION_MAX) {
-            logger.warn("RDB version {} may not be fully supported (supported: {}-{})",
-                    rdbVersion, RDB_VERSION_MIN, RDB_VERSION_MAX);
+        if (rdbVersion != RDB_VERSION) {
+            logger.warn("RDB version {} may not be fully supported (supported: {})",
+                    rdbVersion, RDB_VERSION);
         }
 
         logger.debug("RDB version: {}", rdbVersion);

@@ -27,7 +27,13 @@ public enum RespType {
     /**
      * Array: *2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n
      */
-    ARRAY('*');
+    ARRAY('*'),
+
+    /**
+     * +CONTINUE\r\n[\n]
+     * +FULLRESYNC 8de1787ba490483314a4d30f1c628bc5025eb761 2443808505[\n]$2443808505\r\nxxxxxxxxxxxxxxxx\r\n
+     */
+    LF('\n');
 
     private final char prefix;
 
@@ -53,6 +59,7 @@ public enum RespType {
             case ':' -> INTEGER;
             case '$' -> BULK_STRING;
             case '*' -> ARRAY;
+            case '\n' -> LF;
             default -> throw new IllegalArgumentException(
                 "Unknown RESP type prefix: " + (char) prefix + " (0x" + Integer.toHexString(prefix) + ")"
             );
